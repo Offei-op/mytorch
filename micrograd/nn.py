@@ -6,15 +6,16 @@ import matplotlib.pyplot as plt
 
 class Neuron:
 
-    def __init__(self,xin):
+    def __init__(self,xin,bias= True):
         self.w = [Value(random.uniform(-1,1)) for i in range(xin)]
         self.b = Value(random.uniform(-1,1))
-        self._params = self.w+[self.b]
+        self.bias = bias
+        self._params = self.w+[self.b] if bias else self.w
         
         
     def __call__(self, xs):
         assert(len(xs) == len(self.w))
-        act =  sum((x*w for x, w in zip(xs,self.w)),self.b)
+        act =  sum((x*w for x, w in zip(xs,self.w)),self.b) if self.bias else sum((x*w for x, w in zip(xs,self.w))) 
         out = act.tanh()
         return out
     
